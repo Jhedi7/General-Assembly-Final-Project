@@ -1,4 +1,4 @@
-# General-Assembly-Final-Project
+# General-Assembly-Final-Project. Dog breed recognition app.
 
 # Project Overview
 
@@ -27,34 +27,43 @@ You are **responsible** for scheduling time with your squad to seek approval for
 
 ## Project Description
 
-Use this section to describe your final project and perhaps any links to relevant sites that help convey the concept and\or functionality.
+My project will be a mobile app that you can use to take a picture of a dog to see what breed it is! I will be trainning my own custom Clarifai API model to do so.
 
 ## Wireframes
 
-Include links to the images of your wireframes. 
+![](wireframes/Priority-matrix.jpg)
 
 ## Priority Matrix
 
-Include a link to your full the `Time\Priority` Matix.  
+![](wireframes/Priority-matrix.jpg)
 
 ## MVP 
 
 Include a bulleted list of the features that will be part of your MVP 
 
+- Full functional app and UI
+- User login and registration
+- fully functional API calls/displays
+
+
 ## POST MVP
 
 Include a bulleted list of the features that will be part of POST MVP
 
+- Posssible chat feature! 
+
 
 ## Functional Components
 
-Based on the initial logic defined in the previous game phases section try and breakdown the logic further into functional components, and by that we mean functions.  Does your logic indicate that code could be encapsulated for the purpose of reusablility.  Once a function has been defined it can then be incorporated into a class as a method. 
 
-Time frames are also key in the development cycle.  You have limited time to code all phases of the game.  Your estimates can then be used to evalute game possibilities based on time needed and the actual time you have before game must be submitted. 
 
-| Component | Priority | Estimated Time | Time Invetsted | Actual Time |
-| --- | :---: |  :---: | :---: | :---: |
-| Component 1 | H | 10hrs| 12hrs | 12hrs |
+| Component    | Priority | Estimated Time | Time Invetsted | Actual Time |
+| ---          | :---:    |  :---:         | :---:          | :---:       |
+| React Native | High     | 20hrs          | 0              | 0           |
+| Clarifai     | High     | 5hrs           | 0              | 0           |
+| Firebase     | High     | 5hrs           | 0              | 0           |
+| CSS          | low      | 5hrs           | 0              | 0           |
+
 
 ## Helper Functions
 Helper functions should be generic enought that they can be reused in other applications. Use this section to document all helper functions that fall into this category.
