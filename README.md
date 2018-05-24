@@ -65,15 +65,13 @@ Include a bulleted list of the features that will be part of POST MVP
 | CSS          | low      | 5hrs           | 0              | 0           |
 
 
-## Helper Functions
-Helper functions should be generic enought that they can be reused in other applications. Use this section to document all helper functions that fall into this category.
+## User stories
 
-| Function | Description | 
-| --- | :---: |  
-| Capitalize | This will capitalize the first letter in a string | 
+You encounter a super exotic looking doggie, you take a pic and you see what breed it is! You can also send the results to friends.
 
 ## Additional Libraries
- Use this section to list all supporting libraries and thier role in the project. 
+
+ - Clarifai API. A machine learning API capable of image recognition.
 
 ## Code Snippet
 
