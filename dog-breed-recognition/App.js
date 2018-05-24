@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/components/Login'
+import Home from './src/components/Home'
 
 export default class App extends React.Component {
   render() {
@@ -8,6 +9,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
 
         <Login />
+        <Home />
       </View>
     );
   }
