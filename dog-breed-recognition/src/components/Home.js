@@ -5,10 +5,14 @@ export default class Home extends React.Component {
   render() {
     return (
       <View>
-        <Text>From HOME!!!</Text>
+        <Text>AT THE HOME PAGE!!</Text>
       </View>
 
 
     );
   }
 }
+
+
+
+
