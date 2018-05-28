@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default class Home extends React.Component {
+export default class Favorites extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>AT THE HOME PAGE!!</Text>
+        <Text>AT Favorites!!</Text>
       </View>
 
 
@@ -21,7 +21,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
-
-
-
-

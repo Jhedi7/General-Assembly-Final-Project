@@ -12,12 +12,6 @@ export default class Login extends React.Component {
     loading: false
   }
 
-  // onChange = (key, value) => {
-  //   this.setState({
-  //     [key]: value
-  //   })
-  // }
-
   onSubmit = () => {
     const { email, password } = this.state;
 

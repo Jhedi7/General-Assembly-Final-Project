@@ -1,20 +1,13 @@
 import React from 'react';
 import firebase from 'firebase';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
-import { colors } from './src/themes';
-import Login from './src/components/Login'
-import Home from './src/components/Home'
-import Spinner  from './src/components/Spinner'
-
+import Navigator from './src/AppTabNavigator';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loggedIn: null};
   }
-
-
-
 
   componentDidMount () {
 
@@ -42,19 +35,14 @@ export default class App extends React.Component {
     switch (this.state.loggedIn) {
       case true:
         return  (
-<View>
-
-        <TouchableOpacity onPress={() => firebase.auth().signOut()}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}> Log Out </Text>
+          <View>
+            <TouchableOpacity onPress={() => firebase.auth().signOut()}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}> Log Out </Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-
-
-          <Home />
-        </View>
-
-      );
+        );
       case false:
         return <Login />;
       default:
@@ -62,37 +50,18 @@ export default class App extends React.Component {
     }
   }
 
-
-
-  render() {
+render() {
     return (
-      <View style={styles.container}>
-
-
-         {this.renderContent()}
-
-
-      </View>
+        <Navigator />
     );
   }
 }
 
-
-
-
-
-
 const styles = StyleSheet.create({
-  button:{
-    backgroundColor: 'white',
-    height: 50,
-    margin: 10,
-    width: 400,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
+
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: 'white',
+    marginTop: 100,
     flex: 1,
     width: '100%',
     alignItems: 'center',
