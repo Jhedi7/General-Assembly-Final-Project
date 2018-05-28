@@ -1,24 +1,27 @@
 import React from 'react';
-import firebase from 'firebase';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import Navigator from './src/AppTabNavigator';
+import * as firebase from 'firebase';
+
+
+
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { loggedIn: null};
+state = {
+
+    loggedIn: null
   }
 
-  componentDidMount () {
+  componentWillMount () {
 
     firebase.initializeApp ({
-      apiKey: "AIzaSyD_rLUfWQQ9leNSsBx4O5vQZpafFKG7enY",
-      authDomain: "dog-breed-8db94.firebaseapp.com",
-      databaseURL: "https://dog-breed-8db94.firebaseio.com",
-      projectId: "dog-breed-8db94",
-      storageBucket: "dog-breed-8db94.appspot.com",
-      messagingSenderId: "839736665271"
-    });
+    apiKey: "AIzaSyD_rLUfWQQ9leNSsBx4O5vQZpafFKG7enY",
+    authDomain: "dog-breed-8db94.firebaseapp.com",
+    databaseURL: "https://dog-breed-8db94.firebaseio.com",
+    projectId: "dog-breed-8db94",
+    storageBucket: "dog-breed-8db94.appspot.com",
+    messagingSenderId: "839736665271"
+  });
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -50,12 +53,15 @@ export default class App extends React.Component {
     }
   }
 
-render() {
-    return (
-        <Navigator />
-    );
+
+
+
+  render() {
+      return (
+          <Navigator />
+      );
+    }
   }
-}
 
 const styles = StyleSheet.create({
 

@@ -1,16 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { colors } from '../themes';
+
 import Spinner from './Spinner';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 export default class Login extends React.Component {
   state = {
     email: '',
     password: '',
     error: '',
-    loading: false
+    loading: false,
+
   }
+
 
   onSubmit = () => {
     const { email, password } = this.state;
@@ -64,7 +66,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}> Breed easy' </Text>
+        <Text style={styles.header}> Breed easy </Text>
 
         <TextInput
           style={styles.input}
@@ -85,6 +87,8 @@ export default class Login extends React.Component {
           {this.renderButton()}
 
 
+
+
       </View>
 
 
@@ -102,6 +106,7 @@ const styles = StyleSheet.create({
     height: 50
   },
   button: {
+    borderColor: 'grey',
     backgroundColor: '#666',
     height: 50,
     margin: 10,
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: 'white',
     width: 420,
     flex: 1,
     justifyContent: 'center'
