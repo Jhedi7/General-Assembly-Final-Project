@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import Navigator from './src/AppTabNavigator';
 import * as firebase from 'firebase';
+import ImagePicker from 'react-native-image-picker'
 
 
 
@@ -12,7 +13,7 @@ state = {
     loggedIn: null
   }
 
-  componentWillMount () {
+  componentDidMount () {
 
     firebase.initializeApp ({
     apiKey: "AIzaSyD_rLUfWQQ9leNSsBx4O5vQZpafFKG7enY",

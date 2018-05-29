@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, View, StatusBar, ActivityIndicator,StyleSheet, Text } from 'react-native'
+import PropTypes from 'prop-types'
+import ImagePicker from 'react-native-image-picker'
 
 export default class Home extends React.Component {
   render() {

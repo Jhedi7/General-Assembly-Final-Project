@@ -50,7 +50,7 @@ Camera: {screen: Camera,
 
 
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Camera',
   navigationOptions: {},
   order: ['Login', 'Home', 'Favorites', 'Camera'],
   tabBarPosition: 'bottom',
