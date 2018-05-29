@@ -1,7 +1,7 @@
 {
-  "infoPlist": {
-  "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets.",
-  "NSCameraUsageDescription": "Allow Expo experiences to use your camera",
+"infoPlist": {
+"NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets.",
+"NSCameraUsageDescription": "Allow Expo experiences to use your camera",
 "NSContactsUsageDescription": "Allow Expo experiences to access your contacts",
 "NSLocationWhenInUseUsageDescription": "Allow Expo experiences to use your location",
 "NSMicrophoneUsageDescription": "Allow Expo experiences to access your microphone",
