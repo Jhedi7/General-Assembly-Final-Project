@@ -53,10 +53,6 @@ state = {
         return <Spinner />;
     }
   }
-
-
-
-
   render() {
       return (
           <Navigator />

@@ -15,20 +15,21 @@ import PropTypes from 'prop-types'
 import { Camera, Permissions } from 'expo';
 import Expo from 'expo';
 import { ImagePicker } from 'expo';
-
-
-
-
-
-
+import RNFetchBlob from "react-native-fetch-blob";
+import Clarifai from "clarifai";
 
 export default class CameraApp extends React.Component {
+  state = {
+    // imgUri: null,
+    topText: '',
+    bottomText: '',
+  }
 
 async  alertIfRemoteNotificationsDisabledAsync() {
   const { Permissions } = Expo;
   const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   if (status !== 'granted') {
-    alert('Hey! You might want to enable notifications for my app, they are good.');
+    alert('OH GOD LET ME USE IT');
   }
 }
 
@@ -38,74 +39,104 @@ async  alertIfRemoteNotificationsDisabledAsync() {
   }
 
 
-  state = {
-    // imgUri: null,
-    topText: '',
-    bottomText: '',
+
+  generateBreed = async function(){
+
+    // save to CameraRoll
+    CameraRoll.saveToCameraRoll(this.state.path);
+    // convert the image to base64 data
+    RNFetchBlob.fs
+      .readFile(this.state.path, "base64")
+      .then(data => {
+        app.models
+          .predict(Clarifai.GENERAL_MODEL, { base64: data })
+          .then(response => {
+            // do something with response
+            console.log("response from clarifai ", response);
+            this.setState({
+              data: response,
+              conceptsLoaded: true
+            });
+            this.createStringOfNames();
+          });
+
+      })
+      .catch(error => {
+        // error on converting image to base64 data
+        console.log(error);
+      });
+
   }
+
+
 
 
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-            Image Picker
-        </Text>
+
 
         // The image to display (null by default)
         <Image ref={(ref) => this.imageView = ref}
-          style={{ width: 300, height: 300, backgroundColor: '#dddddd' }}
+          style={{ width: 400, height: 400, backgroundColor: '#dddddd' }}
           source={{ uri: this.state.imgUri }}
         />
 
-        // Make a row of buttons
-        <View style={{ flexDirection: 'row' }}>
 
-          // "Choose" button
+        <View style={{ flex: 1}}>
+
+
           <TouchableOpacity
             style={styles.button}
-            onPress={this._onChoosePic}>
-            <Text style={styles.buttonText}>Choose</Text>
+            onPress={this.choosePicture}>
+            <Text style={styles.buttonText}>Choose from your pictures</Text>
           </TouchableOpacity>
 
-          // "Take" button
+
           <TouchableOpacity
             style={styles.button}
-            onPress={this._onTakePic}>
-            <Text style={styles.buttonText}>Take</Text>
+            onPress={this.takePicture}>
+            <Text style={styles.buttonText}>Take a picture</Text>
           </TouchableOpacity>
 
-          // "Save" button
+
           <TouchableOpacity
             style={styles.button}
-            onPress={this._onSave}>
+            onPress={this.savePicture}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
         </View>
+
+
+
+        <TouchableOpacity
+            style={styles.button}
+            onPress={this.generateBreed}>
+            <Text style={styles.buttonText}>LOOK UP SOME DOGS!</Text>
+          </TouchableOpacity>
+
       </View>
     );
   }
 
 
-  // When "Choose" is pressed, we show the user's image library
-  // so they may show a photo from disk inside the image view.
-  _onChoosePic = async () => {
+
+  choosePicture = async () => {
     const {
       cancelled,
       uri,
     } = await Expo.ImagePicker.launchImageLibraryAsync();
     if (!cancelled) {
       this.setState({ imageUri: uri });
-      // console.log(uri) // this logs correctly
-      // TODO: why isn't this showing up inside the Image on screen?
+      console.log(uri) // this logs correctly
+
     }
   }
 
-  // When "Take" is pressed, we show the user's camera so they
-  // can take a photo to show inside the image view on screen.
-  _onTakePic = async () => {
+
+  takePicture = async () => {
     const {
       cancelled,
       uri,
@@ -115,12 +146,11 @@ async  alertIfRemoteNotificationsDisabledAsync() {
     }
   }
 
-  // When "Save" is pressed, we snapshot whatever is shown inside
-  // of "this.imageView" and save it to the device's camera roll.
-  _onSave = async () => {
+
+  savePicture = async () => {
     const uri = await Expo.takeSnapshotAsync(this.imageView, {});
     await CameraRoll.saveToCameraRoll(uri);
-    // TODO: show confirmation that it was saved (flash the word saved across bottom of screen?)
+
   }
 
 
@@ -129,16 +159,18 @@ async  alertIfRemoteNotificationsDisabledAsync() {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 28,
-    margin: 20,
+    fontSize: 20,
+    margin: 15,
   },
   buttonText: {
-    fontSize: 21,
+    fontSize: 13,
+    alignItems: 'center'
+
   },
   button: {
-    padding: 13,
-    margin: 15,
-    backgroundColor: '#dddddd',
+    padding: 8,
+    margin: 8,
+    backgroundColor: 'white',
   },
   container: {
     marginTop: Expo.Constants.statusBarHeight + 40,
@@ -149,180 +181,6 @@ const styles = StyleSheet.create({
 });
 
 
-// export default class CameraApp extends React.Component {
-//   constructor(props){
-//     super(props);
-
-//     state = {
-//     imgUri: null,
-//     topText: '',
-//     bottomText: '',
-//     }
-
-// }
-
-
-// componentDidMount(){
-
-//   // When "Choose" is pressed, we show the user's image library
-//   // so they may show a photo from disk inside the image view.
-//   _onChoosePic = async () => {
-//     const {
-//       cancelled,
-//       uri,
-//     } = await Expo.ImagePicker.launchImageLibraryAsync();
-//     if (!cancelled) {
-//       this.setState({ imageUri: uri });
-//       // console.log(uri) // this logs correctly
-//       // TODO: why isn't this showing up inside the Image on screen?
-//     }
-//   }
-
-//   // When "Take" is pressed, we show the user's camera so they
-//   // can take a photo to show inside the image view on screen.
-//   _onTakePic = async () => {
-//     const {
-//       cancelled,
-//       uri,
-//     } = await Expo.ImagePicker.launchCameraAsync({});
-//     if (!cancelled) {
-//       this.setState({ imgUri: uri });
-//     }
-//   }
-
-//   // When "Save" is pressed, we snapshot whatever is shown inside
-//   // of "this.imageView" and save it to the device's camera roll.
-//   _onSave = async () => {
-//     const uri = await Expo.takeSnapshotAsync(this.imageView, {});
-//     await CameraRoll.saveToCameraRoll(uri);
-//     // TODO: show confirmation that it was saved (flash the word saved across bottom of screen?)
-//   }
-
-// }
-
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.text}>
-//             Image Picker
-//         </Text>
-
-
-//         <Image ref={(ref) => this.imageView = ref}
-//           style={{ width: 300, height: 300, backgroundColor: '#dddddd' }}
-//           source={{ uri: this.state.imgUri }}
-//         />
-
-
-//         <View style={{ flexDirection: 'row' }}>
-
-
-//           <TouchableOpacity
-//             style={styles.button}
-//             onPress={this._onChoosePic}>
-//             <Text style={styles.buttonText}>Choose</Text>
-//           </TouchableOpacity>
-
-
-//           <TouchableOpacity
-//             style={styles.button}
-//             onPress={this._onTakePic}>
-//             <Text style={styles.buttonText}>Take</Text>
-//           </TouchableOpacity>
-
-
-//           <TouchableOpacity
-//             style={styles.button}
-//             onPress={this._onSave}>
-//             <Text style={styles.buttonText}>Save</Text>
-//           </TouchableOpacity>
-
-//         </View>
-//       </View>
-//     );
-//   }
-
-// }
-
-
-// const styles = StyleSheet.create({
-//   text: {
-//     fontSize: 28,
-//     margin: 20,
-//   },
-//   buttonText: {
-//     fontSize: 21,
-//   },
-//   button: {
-//     padding: 13,
-//     margin: 15,
-//     backgroundColor: '#dddddd',
-//   },
-//   container: {
-//     marginTop: Expo.Constants.statusBarHeight + 40,
-//     flex: 1,
-//     backgroundColor: '#ffffff',
-//     alignItems: 'center',
-//   },
-// });
-
-
-
-
-
-// export default class CameraExample extends React.Component {
-//   state = {
-//     hasCameraPermission: null,
-//     type: Camera.Constants.Type.back,
-//   };
-
-//   async componentWillMount() {
-//     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-//     this.setState({ hasCameraPermission: status === 'granted' });
-//   }
-
-//   render() {
-//     const { hasCameraPermission } = this.state;
-//     if (hasCameraPermission === null) {
-//       return <View />;
-//     } else if (hasCameraPermission === false) {
-//       return <Text>No access to camera</Text>;
-//     } else {
-//       return (
-//         <View style={{ flex: 1 }}>
-//           <Camera style={{ flex: 1 }} type={this.state.type}>
-//             <View
-//               style={{
-//                 flex: 1,
-//                 backgroundColor: 'transparent',
-//                 flexDirection: 'row',
-//               }}>
-//               <TouchableOpacity
-//                 style={{
-//                   flex: 0.1,
-//                   alignSelf: 'flex-end',
-//                   alignItems: 'center',
-//                 }}
-//                 onPress={() => {
-//                   this.setState({
-//                     type: this.state.type === Camera.Constants.Type.back
-//                       ? Camera.Constants.Type.front
-//                       : Camera.Constants.Type.back,
-//                   });
-//                 }}>
-//                 <Text
-//                   style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-//                   {' '}Flip{' '}
-//                 </Text>
-//               </TouchableOpacity>
-//             </View>
-//           </Camera>
-//         </View>
-//       );
-//     }
-//   }
-// }
 
 
 
