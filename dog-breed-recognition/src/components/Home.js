@@ -1,16 +1,15 @@
 import React from 'react';
-import { Alert, View, StatusBar, ActivityIndicator,StyleSheet, Text } from 'react-native'
+import { Alert, View, StatusBar, ActivityIndicator, StyleSheet, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import ImagePicker from 'react-native-image-picker'
 
-export default class Home extends React.Component {
+ export default class Home extends React.Component {
+
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>AT THE HOME PAGE!!</Text>
       </View>
-
-
     );
   }
 }
@@ -23,6 +22,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
+
+
 
 
 
