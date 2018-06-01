@@ -357,5 +357,4 @@ dependencies: \
   /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/node_modules/react-native/React/../third-party/folly-2016.09.26.00/folly/portability/Math.h \
   /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/node_modules/react-native/React/../ReactCommon/cxxreact/JSModulesUnbundle.h \
   /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/noncopyable.h \
-  /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/node_modules/react-native/React/../third-party/folly-2016.09.26.00/folly/Memory.h \
-  /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/node_modules/react-native/ReactCommon/cxxreact/oss-compat-util.h
+  /Users/student_105/Desktop/WDI/UNIT-FOUR/General-Assembly-Final-Project/dog-breed-recognition/node_modules/react-native/React/../third-party/folly-2016.09.26.00/folly/Memory.h

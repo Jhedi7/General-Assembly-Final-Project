@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 // import { AppTabNavigator }  from './src/AppTabNavigator';
 
 import Login from './src/components/Login'
-import Icon from 'react-native-vector-icons/Ionicons'
+// import Icon from 'react-native-vector-icons/Ionicons'
 
 import Camera from './src/components/Camera'
 import Home  from './src/components/Home'
 import Favorites from './src/components/Favorites'
 import * as firebase from 'firebase';
-import ImagePicker from 'react-native-image-picker'
-import { createMaterialTopTabNavigator } from 'react-navigation'
+// import ImagePicker from 'react-native-image-picker'
+// import { createMaterialTopTabNavigator } from 'react-navigation'
 // import { Spinner } from './src/components/Spinner'
 
 
@@ -74,7 +74,7 @@ state = {
   }
 
 
-const AppTabNavigator = createMaterialTopTabNavigator({
+export default AppTabNavigator = createMaterialTopTabNavigator({
   Home: {screen: Home,
   navigationOptions:{
     tabBarLabel: 'Home'
@@ -122,7 +122,7 @@ Camera: {screen: Camera,
 
 
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Camera',
   navigationOptions: {},
   order: ['Login', 'Home', 'Favorites', 'Camera'],
   tabBarPosition: 'bottom',
