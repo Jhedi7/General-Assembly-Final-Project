@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Camera from './components/Camera'
 import Home from './components/Home'
 import Favorites from './components/Favorites'
+import Prediction from './components/Prediction'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { createMaterialTopTabNavigator } from 'react-navigation'
@@ -39,6 +40,15 @@ const Navigator = createMaterialTopTabNavigator({
   }
 },
 
+Prediction: {screen: Prediction,
+  navigationOptions:{
+    tabBarLabel: 'Favorites',
+    tabBarIcon: ({tintColor}) => (
+      <Icon name="ios-heart-outline" color={tintColor} size={26} />
+    )
+  }
+},
+
 Camera: {screen: Camera,
   navigationOptions:{
     tabBarLabel: 'Take a picture',
@@ -52,7 +62,7 @@ Camera: {screen: Camera,
 }, {
   initialRouteName: 'Camera',
   navigationOptions: {},
-  order: ['Login', 'Home', 'Favorites', 'Camera'],
+  order: ['Login', 'Home', 'Favorites', 'Camera', 'Prediction'],
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: 'black',
