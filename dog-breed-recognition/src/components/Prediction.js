@@ -23,7 +23,7 @@ class Prediction extends Component {
     }
 
     this._cancel = this._cancel.bind(this)
-    // this.props.navigation.state.params.image = this.props.navigation.state.params.image.bind(this)
+    this.props.navigation.state.params.image = this.props.navigation.state.params.image.bind(this)
   }
 
   componentDidMount() {

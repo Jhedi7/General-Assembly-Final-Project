@@ -37,6 +37,14 @@ export default class CameraApp extends React.Component {
   // this.imgUri = this.imgUri.bind(this)
   // this.app = new Clarifai.App({
   // apiKey: "c362597d65354a998a07e5c6ba1da882"
+  this.options = {
+
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+
+    }
 
 }
 
@@ -77,30 +85,44 @@ choosePicture = async () => {
   }
 
 
-  takePicture = async () => {
-    this.setState({loading: true})
-    const {
-      cancelled,
-      uri,
-      image
-    } = await Expo.ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 3],
-    });
-    if (cancelled) {
-      this.setState({ loading: false });
-    } else {
-      const { navigate } = this.props.navigation
-        navigate('Prediction', { image: this.ImagePicker })
+  // takePicture = async () => {
+  //   this.setState({loading: true})
+  //   const {
+  //     cancelled,
+  //     uri,
+  //     image
+  //   } = await Expo.ImagePicker.launchCameraAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     base64: true,
+  //     allowsEditing: false,
+  //     aspect: [4, 3],
+  //   });
+  //   if (cancelled) {
+  //     this.setState({ loading: false });
+  //   } else {
+  //     const { navigate } = this.props.navigation
+  //       navigate('Prediction', { image: this.ImagePicker })
+  //       this.setState({ loading: false })
+
+  //   }
+
+  // }
+
+takePicture() {
+    this.setState({ loading: true })
+    Expo.ImagePicker.launchCameraAsync(this.options, response => {
+      if (response.didCancel) {
         this.setState({ loading: false })
-
-    }
-
+      } else if (response.error) {
+        Alert.alert('Erreur', 'Vérifiez vos permissions aux albums photos et à la caméra.', { cancelable: false })
+        this.setState({ loading: false })
+      } else {
+        const { navigate } = this.props.navigation
+        navigate('Prediction', { image: response })
+        this.setState({ loading: false })
+      }
+    })
   }
-
-
 
   // _onClick() {
   //   this.setState({ loading: true })
