@@ -3,7 +3,7 @@ import { ActivityIndicator, View, Text, StatusBar, Alert, } from 'react-native'
 import PropTypes from 'prop-types'
 import { NavigationActions } from 'react-navigation'
 import Clarifai from 'clarifai'
-import { createMaterialTopTabNavigator } from 'react-navigation'
+
 
 import AnswerNotification from './AnswerNotification'
 // import Camera from './components/Camera'
@@ -23,7 +23,7 @@ class Prediction extends Component {
     }
 
     this._cancel = this._cancel.bind(this)
-    this.props.navigation.state.params.image = this.props.navigation.state.params.image.bind(this)
+    // this.props.navigation.state.params.image = this.props.navigation.state.params.image.bind(this)
   }
 
   componentDidMount() {
@@ -32,8 +32,8 @@ class Prediction extends Component {
 
     process.nextTick = setImmediate // RN polyfill
 
-    const { data } = this.props.navigation.state.params.image;
-    const file = { base64: data }
+    let { data } = this.props.navigation.state.params.image;
+    let file = { base64: data }
 
     app.models.predict(Clarifai.GENERAL_MODEL, data )
       .then(response => {
@@ -102,11 +102,12 @@ class Prediction extends Component {
   }
 
   render() {
-    const {type, data } = this.props.navigation.state.params.image
-    const sourceImage = `data:${type};base64,${data}`
+
+    let {type, data } = this.props.navigation.state.params.image
+    let sourceImage = `data:${type};base64,${data}`
 
     return (
-      <BackgroundImage source={{uri: sourceImage}} resizeMode='cover'>
+       <BackgroundImage source={{uri: sourceImage}} resizeMode='cover'>
         <StatusBar hidden />
         {
           this.state.loading ?
@@ -122,18 +123,46 @@ class Prediction extends Component {
                 image={sourceImage}
                 onCancel={this._cancel}
               />
-              <XPButton
-                title='Non merci'
-                color='black'
-                textOnly
-                onPress={this._cancel}
-              />
+
             </View>
         }
       </BackgroundImage>
-    )
+      );
+
   }
 }
+
+// const {type, data } = this.props.navigation.state.params.image
+    // const sourceImage = `data:${type};base64,${data}`
+ // // <BackgroundImage source={{uri: sourceImage}} resizeMode='cover'>
+ //        <StatusBar hidden />
+ //        {
+ //          this.state.loading ?
+ //            <View style={styles.loader}>
+ //              <ActivityIndicator size={75} color='#95a5a6' />
+ //              <Text style={styles.loaderText}>Analyse en cours...</Text>
+ //            </View> :
+ //            <View style={styles.container}>
+ //              <AnswerNotification answer={this.state.result} />
+ //              <CaptureAndShare
+ //                title='Partager'
+ //                color='#3498db'
+ //                image={sourceImage}
+ //                onCancel={this._cancel}
+ //              />
+
+ //            </View>
+ //        }
+ //      // </BackgroundImage>
+ //    )
+// <XPButton
+              //   title='Non merci'
+              //   color='black'
+              //   textOnly
+              //   onPress={this._cancel}
+              // />
+
+
 
 Prediction.propTypes = {
   navigation: PropTypes.object

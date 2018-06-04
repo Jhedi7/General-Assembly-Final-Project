@@ -14,7 +14,7 @@ import { Alert,
 import PropTypes from 'prop-types'
 import { Camera, Permissions } from 'expo';
 import Expo from 'expo';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Camera, Permissions } from 'expo';
 // import RNFetchBlob from "react-native-fetch-blob";
 import Clarifai from "clarifai";
 
@@ -23,26 +23,22 @@ import Clarifai from "clarifai";
 // });
 
 export default class CameraApp extends React.Component {
-  static navigationOptions = {
-    header: "doggie stuff!"
-  }
+
 
   constructor(){
     super();
     this.state = {
-     loading: false
+      imageInfo: null,
+      loading: false
   }
-  this.generateBreed = this.generateBreed.bind(this);
+  // this.generateBreed = this.generateBreed.bind(this);
   this.takePicture = this.takePicture.bind(this);
-  // this.imgUri = this.imgUri.bind(this)
-  // this.app = new Clarifai.App({
-  // apiKey: "c362597d65354a998a07e5c6ba1da882"
+
   this.options = {
 
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 3],
+
+      base64: true
+
 
     }
 
@@ -78,7 +74,7 @@ choosePicture = async () => {
       aspect: [4, 3],
     });
     if (!cancelled) {
-      this.setState({ loading: false });
+      this.setState({ loading: false, imageInfo: uri });
       console.log(uri) // this logs correctly
 
     }
@@ -108,10 +104,26 @@ choosePicture = async () => {
 
   // }
 
-takePicture() {
+// takePicture() {
+//     this.setState({ loading: true })
+//     Expo.ImagePicker.launchCameraAsync(this.options, response => {
+//       if (response.didCancel) {
+//         this.setState({ loading: false })
+//       } else if (response.error) {
+//         Alert.alert('Erreur', 'Vérifiez vos permissions aux albums photos et à la caméra.', { cancelable: false })
+//         this.setState({ loading: false })
+//       } else {
+//         this.props.navigation.navigate("Prediction", { image: response })
+//         this.setState({ loading: false })
+//       }
+//     })
+//   }
+
+  takePicture() {
     this.setState({ loading: true })
-    Expo.ImagePicker.launchCameraAsync(this.options, response => {
+    Expo.ImagePicker.launchCameraAsync( {}, response => {
       if (response.didCancel) {
+        this.setState({ loading: false, imageInfo: uri })
         this.setState({ loading: false })
       } else if (response.error) {
         Alert.alert('Erreur', 'Vérifiez vos permissions aux albums photos et à la caméra.', { cancelable: false })
@@ -119,7 +131,8 @@ takePicture() {
       } else {
         const { navigate } = this.props.navigation
         navigate('Prediction', { image: response })
-        this.setState({ loading: false })
+
+        this.setState({ loading: false, imageInfo: uri })
       }
     })
   }
@@ -151,45 +164,7 @@ takePicture() {
     await CameraRoll.saveToCameraRoll(uri);
 
   }
-
-
-
-  generateBreed =  () => {
-    const app = new Clarifai.App({
-  apiKey: "c362597d65354a998a07e5c6ba1da882"})
-
-    // const data = this.state.imgUri;
-    // data.append('photo', {
-    //     uri: data,
-    //     type: 'image/jpeg',
-    //     name: 'testPhotoName'
-    //   });
-
-    process.nextTick = setImmediate
-
-   app.models.predict(Clarifai.GENERAL_MODEL, data )
-      .then(response => {
-            // do something with response
-            console.log("response from clarifai ", response);
-            this.setState({
-
-              imgUri: response,
-              data: response,
-              conceptsLoaded: true
-
-            });
-            // console.log(imgUri)
-
-          })
-      .catch(err => console.log(err))
-        }
-
-
-
-
-
-
-  render() {
+render() {
     // console.log(this.state.imgUri)
     // console.log(this.state.data)
     console.log(this.state.takePicture)
@@ -201,7 +176,7 @@ takePicture() {
         // The image to display (null by default)
         <Image ref={(ref) => this.imageView = ref}
           style={{ width: 400, height: 400, backgroundColor: '#dddddd' }}
-          source={{ uri: this.state.imgUri }}
+          source={{ uri: this.state.imageInfo }}
         />
 
 
@@ -242,13 +217,9 @@ takePicture() {
       </View>
     );
   }
-
-
-
-
-
-
 }
+
+
 
 CameraApp.propTypes = {
   navigation: PropTypes.object,
@@ -276,6 +247,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+
+
+
+// generateBreed =  () => {
+  //   const app = new Clarifai.App({
+  // apiKey: "c362597d65354a998a07e5c6ba1da882"})
+
+  //   // const data = this.state.imgUri;
+  //   // data.append('photo', {
+  //   //     uri: data,
+  //   //     type: 'image/jpeg',
+  //   //     name: 'testPhotoName'
+  //   //   });
+
+  //   process.nextTick = setImmediate
+
+  //  app.models.predict(Clarifai.GENERAL_MODEL, data )
+  //     .then(response => {
+  //           // do something with response
+  //           console.log("response from clarifai ", response);
+  //           this.setState({
+
+  //             imgUri: response,
+  //             data: response,
+  //             conceptsLoaded: true
+
+  //           });
+  //           // console.log(imgUri)
+
+  //         })
+  //     .catch(err => console.log(err))
+  //       }
 
 
 

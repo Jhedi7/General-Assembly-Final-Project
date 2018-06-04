@@ -8,10 +8,11 @@ import Camera from './src/components/Camera'
 import Home from './src/components/Home'
 import Favorites from './src/components/Favorites'
 import Prediction from './src/components/Prediction'
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
+// import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { createMaterialTopTabNavigator } from 'react-navigation'
-import { createBottomTabNavigator } from 'react-navigation'
+// import { createMaterialTopTabNavigator } from 'react-navigation'
+// import { createBottomTabNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 
   const config = {
     apiKey: "AIzaSyD_rLUfWQQ9leNSsBx4O5vQZpafFKG7enY",
@@ -24,79 +25,91 @@ import { createBottomTabNavigator } from 'react-navigation'
 
   firebase.initializeApp(config);
 
-  const Navigator = createMaterialTopTabNavigator({
-  Home: {screen: Home,
-  navigationOptions:{
-    tabBarLabel: 'Home',
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-home-outline" color={tintColor} size={26} />
-    )
-  }
-},
-
-  Login: {screen: Login,
-  navigationOptions:{
-    tabBarLabel: 'Login',
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-settings-outline" color={tintColor} size={26} />
-    )
-  }
-},
+  const Navigator = createStackNavigator({
+  Home: Home,
+  Login: Login,
+  Favorites: Favorites,
+  Camera: Camera
 
 
-  Favorites: {screen: Favorites,
-  navigationOptions:{
-    tabBarLabel: 'Favorites',
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-heart-outline" color={tintColor} size={26} />
-    )
-  }
-},
-
-Prediction: {screen: Prediction,
-  navigationOptions:{
-    tabBarLabel: 'Favorites',
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-heart-outline" color={tintColor} size={26} />
-    )
-  }
-},
-
-Camera: {screen: Camera,
-  navigationOptions:{
-    tabBarLabel: 'Take a picture',
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="ios-camera-outline" color={tintColor} size={26} />
-    )
-  }
-}
 
 
-}, {
-  initialRouteName: 'Camera',
-  navigationOptions: {},
-  order: ['Login', 'Home', 'Favorites', 'Camera', 'Prediction'],
-  tabBarPosition: 'bottom',
-  tabBarOptions: {
-    activeTintColor: 'black',
-    inactiveTintColor: 'grey',
-    labelStyle: {
-      fontSize: 9,
-    },
-    iconStyle:{
 
-    },
-    style:{
-      backgroundColor: 'white',
-      borderTopWidth: 0.5,
-      borderTopColor: 'grey'
-    },
-  indicatorStyle: {
-    height: 0
-    },
-  showIcon: true
-  }
+
+
+//   Home: {screen: Home,
+//   navigationOptions:{
+//     tabBarLabel: 'Home',
+//     tabBarIcon: ({tintColor}) => (
+//       <Icon name="ios-home-outline" color={tintColor} size={26} />
+//     )
+//   }
+// },
+
+//   Login: {screen: Login,
+//   navigationOptions:{
+//     tabBarLabel: 'Login',
+//     tabBarIcon: ({tintColor}) => (
+//       <Icon name="ios-settings-outline" color={tintColor} size={26} />
+//     )
+//   }
+// },
+
+
+//   Favorites: {screen: Favorites,
+//   navigationOptions:{
+//     tabBarLabel: 'Favorites',
+//     tabBarIcon: ({tintColor}) => (
+//       <Icon name="ios-heart-outline" color={tintColor} size={26} />
+//     )
+//   }
+// },
+
+// Prediction: {screen: Prediction,
+//   navigationOptions:{
+//     tabBarLabel: 'Prediction',
+//     tabBarIcon: ({tintColor}) => (
+//       <Icon name="ios-heart-outline" color={tintColor} size={26} />
+//     )
+//   }
+// },
+
+// Camera: {screen: Camera,
+//   navigationOptions:{
+//     tabBarLabel: 'Take a picture',
+//     tabBarIcon: ({tintColor}) => (
+//       <Icon name="ios-camera-outline" color={tintColor} size={26} />
+//     )
+//   }
+// }
+
+
 })
+// {
+//   initialRouteName: 'Login',
+//   navigationOptions: {},
+//   order: ['Login', 'Home', 'Favorites', 'Camera', 'Prediction'],
+//   tabBarPosition: 'bottom',
+//   tabBarOptions: {
+//     activeTintColor: 'black',
+//     inactiveTintColor: 'grey',
+//     labelStyle: {
+//       fontSize: 9,
+//     },
+//     iconStyle:{
+
+//     },
+//     style:{
+//       backgroundColor: 'white',
+//       borderTopWidth: 0.5,
+//       borderTopColor: 'grey'
+//     },
+//   indicatorStyle: {
+//     height: 0
+//     },
+//   showIcon: true
+//   }
+// })
 
 
 

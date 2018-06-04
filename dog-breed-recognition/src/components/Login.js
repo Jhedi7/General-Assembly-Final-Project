@@ -52,7 +52,7 @@ export default class Login extends React.Component {
     }
     else {
       return (
-        <TouchableOpacity onPress={this.onSubmit.bind(this)}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Camera')}>
           <View style={styles.button}>
             <Text style={styles.buttonText}> Log in </Text>
           </View>
@@ -61,8 +61,8 @@ export default class Login extends React.Component {
     }
   }
 
-
-
+// {() => this.props.navigation.navigate('Details')}
+// {this.onSubmit.bind(this)}
   render() {
     return (
       <View style={styles.container}>
