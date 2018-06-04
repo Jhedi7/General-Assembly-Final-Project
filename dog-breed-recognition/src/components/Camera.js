@@ -12,15 +12,13 @@ import { Alert,
   Dimensions,
   CameraRoll } from 'react-native'
 import PropTypes from 'prop-types'
-import { Camera, Permissions } from 'expo';
+
 import Expo from 'expo';
 import { ImagePicker, Camera, Permissions } from 'expo';
-// import RNFetchBlob from "react-native-fetch-blob";
+
 import Clarifai from "clarifai";
 
-//  this.app = new Clarifai.App({
-//   apiKey: "c362597d65354a998a07e5c6ba1da882"
-// });
+
 
 export default class CameraApp extends React.Component {
 
@@ -28,20 +26,14 @@ export default class CameraApp extends React.Component {
   constructor(){
     super();
     this.state = {
-      imageInfo: null,
-      loading: false
+
+      hasCameraPermission: null,
+      loading: false,
+      type: Camera.Constants.Type.back
   }
   // this.generateBreed = this.generateBreed.bind(this);
   this.takePicture = this.takePicture.bind(this);
-
-  this.options = {
-
-
-      base64: true
-
-
-    }
-
+  this.choosePicture = this.choosePicture.bind(this);
 }
 
 async  alertIfRemoteNotificationsDisabledAsync() {
@@ -54,8 +46,8 @@ async  alertIfRemoteNotificationsDisabledAsync() {
 
  async componentWillMount() {
 
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    this.setState({ permissionsGranted: status === 'granted' });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
     // this.takePicture();
     // console.log(takePicture());
   }
@@ -65,17 +57,16 @@ async  alertIfRemoteNotificationsDisabledAsync() {
   }
 
 choosePicture = async () => {
-    const {
-      cancelled,
-      uri,
-    } = await Expo.ImagePicker.launchImageLibraryAsync({
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 3],
-    });
-    if (!cancelled) {
-      this.setState({ loading: false, imageInfo: uri });
-      console.log(uri) // this logs correctly
+  this.setState({ loading: true}, () => console.log('selecting a pic'))
+  let imageInfo = await ImagePicker.launchImageLibraryAsync({
+       quality: 1.0,
+          base64: true
+    })
+    this.setState({loading: false}, () => console.log('binary image'))
+    if (!imageInfo.cancelled) {
+      this.props.navigation.navigate('Prediction', {
+        base64: imageInfo
+      })
 
     }
   }
@@ -119,23 +110,21 @@ choosePicture = async () => {
 //     })
 //   }
 
-  takePicture() {
-    this.setState({ loading: true })
-    Expo.ImagePicker.launchCameraAsync( {}, response => {
-      if (response.didCancel) {
-        this.setState({ loading: false, imageInfo: uri })
-        this.setState({ loading: false })
-      } else if (response.error) {
-        Alert.alert('Erreur', 'Vérifiez vos permissions aux albums photos et à la caméra.', { cancelable: false })
-        this.setState({ loading: false })
-      } else {
-        const { navigate } = this.props.navigation
-        navigate('Prediction', { image: response })
+  async takePicture() {
 
-        this.setState({ loading: false, imageInfo: uri })
+      if (this.camera) {
+        console.log('camera engaged')
+        this.setState({ loading: false}, () => console.log('camera working'))
+        let imageInfo = await this.camera.takePictureAsync({
+          quality: 1.0,
+          base64: true
+        })
+        console.log('sending over')
+        this.props.navigation.navigate('Prediction', {
+          base64: imageInfo
+        })
       }
-    })
-  }
+    }
 
   // _onClick() {
   //   this.setState({ loading: true })
@@ -155,67 +144,54 @@ choosePicture = async () => {
 
 
 
-  savePicture = async () => {
-    const uri = await Expo.takeSnapshotAsync(this.imageView, {
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 3],
-    });
-    await CameraRoll.saveToCameraRoll(uri);
 
-  }
 render() {
     // console.log(this.state.imgUri)
     // console.log(this.state.data)
     console.log(this.state.takePicture)
+    const { hasCameraPermission } = this.state
 
-    return (
-      <View style={styles.container}>
-
-
-        // The image to display (null by default)
-        <Image ref={(ref) => this.imageView = ref}
-          style={{ width: 400, height: 400, backgroundColor: '#dddddd' }}
-          source={{ uri: this.state.imageInfo }}
-        />
-
-
-        <View style={{ flex: 1}}>
-
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.choosePicture}>
-            <Text style={styles.buttonText}>Choose from your pictures</Text>
-          </TouchableOpacity>
-
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.takePicture}>
-            <Text style={styles.buttonText}>Take a picture</Text>
-          </TouchableOpacity>
-
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.savePicture}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-
+    if (hasCameraPermission === null) {
+      return <View />
+    } else if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>
+    } else {
+      return (
+        <View style={{ flex: 1 }}>
+          <Camera
+            ref={ref => {
+              this.camera = ref
+            }}
+            style={{ flex: 1 }}
+            type={this.state.type}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'transparent'
+              }}>
+              {this.state.loading ? (
+                <View style={styles.cameraLoad}>
+                  <ActivityIndicator size="large" color="#FFF" />
+                </View>
+              ) : (
+                <View>
+                  <TouchableHighlight onPress={this.choosePicture }>
+                    <Text style={styles.select}>SELECT FROM GALLERY</Text>
+                  </TouchableHighlight>
+                </View>
+              )}
+              <View style={styles.snap}>
+                <Button
+                  onPress={this.takePicture}
+                  title="TAKE PICTURE"
+                  color="#d6492c"
+                />
+              </View>
+            </View>
+          </Camera>
         </View>
-
-
-
-        <TouchableOpacity
-            style={styles.button}
-            onPress={this.generateBreed}
-            >
-            <Text style={styles.buttonText}>LOOK UP SOME DOGS!</Text>
-          </TouchableOpacity>
-
-      </View>
-    );
+      )
+    }
   }
 }
 
